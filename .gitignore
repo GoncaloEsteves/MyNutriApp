@@ -32,4 +32,3 @@ backend_api/public/assets
 
 # Ignore key files for decrypting credentials and more.
 backend_api/config/*.key
-
