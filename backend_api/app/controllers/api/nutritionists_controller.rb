@@ -1,4 +1,4 @@
-class NutritionistsController < ApplicationController
+class Api::NutritionistsController < ApplicationController
   before_action :set_nutritionist, only: %i[ show update destroy ]
 
   # GET /nutritionists

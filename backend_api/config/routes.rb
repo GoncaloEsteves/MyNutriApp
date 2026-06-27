@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
-  resources :nutritionists, only: [ :index, :show ]
-  resources :appointments, only: [ :index, :show, :create, :update ]
-  resources :services, only: [ :index, :show ]
+  namespace :api do
+    resources :nutritionists, only: [ :index, :show ]
+    resources :services, only: [ :index, :show ]
+
+    resources :appointments, only: [ :index, :show, :create ] do
+      member do
+        patch 'update_status'
+      end
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
