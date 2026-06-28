@@ -32,3 +32,25 @@ backend_api/public/assets
 
 # Ignore key files for decrypting credentials and more.
 backend_api/config/*.key
+
+# dependencies
+/frontend_client/node_modules
+/frontend_client/.pnp
+/frontend_client/.pnp.js
+
+# testing
+/frontend_client/coverage
+
+# production
+/frontend_client/build
+
+# misc
+/frontend_client/.DS_Store
+/frontend_client/.env.local
+/frontend_client/.env.development.local
+/frontend_client/.env.test.local
+/frontend_client/.env.production.local
+
+/frontend_client/npm-debug.log*
+/frontend_client/yarn-debug.log*
+/frontend_client/yarn-error.log*
