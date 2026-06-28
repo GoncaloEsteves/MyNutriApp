@@ -1,5 +1,5 @@
 class Api::AppointmentsController < ApplicationController
-  before_action :set_appointment, only: %i[ show update_status destroy ]
+  before_action :set_appointment, only: %i[ show accept reject destroy ]
 
   # GET /appointments
   def index
@@ -24,9 +24,18 @@ class Api::AppointmentsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /appointments/1/accept
+  def accept
+    if @appointment.accept!
+      render json: @appointment
+    else
+      render json: @appointment.errors, status: :unprocessable_content
+    end
+  end
+
   # PATCH/PUT /appointments/1
-  def update_status
-    if @appointment.update(status: params[:status])
+  def reject
+    if @appointment.reject!
       render json: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_content

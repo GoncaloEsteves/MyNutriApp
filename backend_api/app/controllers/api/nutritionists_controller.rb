@@ -5,7 +5,16 @@ class Api::NutritionistsController < ApplicationController
   def index
     @nutritionists = Nutritionist.all
 
-    render json: @nutritionists
+    if params[:name].present?
+      @nutritionists = @nutritionists.where("name LIKE ?", "%#{params[:name]}%") if params[:name].present?
+    end
+
+    # if params[:location].present?
+    #   @nutritionists = @nutritionists.where("location LIKE ?", "%#{params[:location]}%") if params[:location].present?
+    # end
+
+    render json: @nutritionists.includes(services: [:service_type, :location]),
+      include: { services: { include: [:service_type, :location] } }
   end
 
   # GET /nutritionists/1

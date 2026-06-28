@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
   namespace :api do
+
     resources :nutritionists, only: [ :index, :show ]
+
     resources :services, only: [ :index, :show ]
 
     resources :appointments, only: [ :index, :show, :create ] do
       member do
-        patch 'update_status'
+        patch 'accept'
+        patch 'reject'
       end
     end
   end
