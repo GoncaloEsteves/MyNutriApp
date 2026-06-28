@@ -5,12 +5,9 @@ class Api::NutritionistsController < ApplicationController
   def index
     @nutritionists = Nutritionist.all
 
-    if params[:name].present?
-      @nutritionists = @nutritionists.where("nutritionists.name LIKE ?", "%#{params[:name]}%")
-    end
-
-    if params[:service_type].present?
-      @nutritionists = @nutritionists.where("service_types.name LIKE ?", "%#{params[:service_type]}%")
+    if params[:searchBy].present?
+      @nutritionists = @nutritionists.where("nutritionists.name LIKE ? or service_types.name LIKE ?", "%#{params[:searchBy]}%", "%#{params[:searchBy]}%")
+      # @nutritionists = @nutritionists.where("service_types.name LIKE ?", "%#{params[:searchBy]}%")
     end
 
     if params[:location].present?

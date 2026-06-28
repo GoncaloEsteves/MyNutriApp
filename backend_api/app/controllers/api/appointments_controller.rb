@@ -1,5 +1,5 @@
 class Api::AppointmentsController < ApplicationController
-  before_action :set_appointment, only: %i[ show accept reject destroy ]
+  before_action :set_appointment, only: %i[ show accept reject ]
 
   # GET /appointments
   def index
@@ -40,11 +40,6 @@ class Api::AppointmentsController < ApplicationController
     else
       render json: @appointment.errors, status: :unprocessable_content
     end
-  end
-
-  # DELETE /appointments/1
-  def destroy
-    @appointment.destroy!
   end
 
   private
