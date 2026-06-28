@@ -59,7 +59,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_27_200919) do
 
   create_table "services", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.time "duration"
+    t.integer "duration"
     t.bigint "location_id", null: false
     t.decimal "price"
     t.bigint "service_type_id", null: false
