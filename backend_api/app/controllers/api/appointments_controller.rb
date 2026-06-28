@@ -1,23 +1,23 @@
 class Api::AppointmentsController < ApplicationController
-  before_action :set_appointment, only: %i[ show accept reject ]
+  before_action :set_appointment, only: %i[ accept reject ]
+  before_action :set_nutritionist, only: %i[ index create ]
+  before_action :set_service, only: %i[ create ]
 
-  # GET /appointments
+  # GET /nutritionists/1/appointments
   def index
-    @appointments = Appointment.all
+    @appointments = Appointment.joins(:nutritionist_service)
+      .where(nutritionist_services: { nutritionist_id: @nutritionist.id })
 
     render json: @appointments
   end
 
-  # GET /appointments/1
-  def show
-    render json: @appointment
-  end
-
-  # POST /appointments
+  # POST /nutritionists/1/services/1/appointments
   def create
     @appointment = Appointment.new(appointment_params)
+    @appointment.nutritionist_service = @nutritionist_service
 
     if @appointment.save
+      # TODO: check for existing appointments for the same patient and delete them
       render json: @appointment, status: :created
     else
       render json: @appointment.errors, status: :unprocessable_content
@@ -27,6 +27,8 @@ class Api::AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1/accept
   def accept
     if @appointment.accept!
+      # TODO: reject overlapping appointments for the same nutritionist
+      # TODO: send email to patient
       render json: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_content
@@ -36,6 +38,7 @@ class Api::AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1
   def reject
     if @appointment.reject!
+      # TODO: send email to patient
       render json: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_content
@@ -48,12 +51,24 @@ class Api::AppointmentsController < ApplicationController
       @appointment = Appointment.find(params.expect(:id))
     end
 
+    def set_nutritionist
+      @nutritionist = Nutritionist.find(params.expect(:nutritionist_id))
+    end
+
+    def set_service
+      @service = Service.find(params.expect(:service_id))
+
+      @nutritionist_service = NutritionistService.find_by(
+        nutritionist_id: @nutritionist.id,
+        service_id: @service.id
+      )
+      unless @nutritionist_service
+        return render json: { error: "NUTRITIONISTSERVICE.NOTFOUND" }, status: :not_found
+      end
+    end
+
     # Only allow a list of trusted parameters through.
     def appointment_params
-      params.require(:patient_name)
-      params.require(:patient_email)
-      params.require(:scheduled_date)
-      params.require(:nutritionist_service_id)
-      params.expect(appointment: [ :patient_name, :patient_email, :scheduled_date, :status, :nutritionist_service_id ])
+      params.expect(appointment: [:patient_name, :patient_email, :scheduled_date, :status])
     end
 end

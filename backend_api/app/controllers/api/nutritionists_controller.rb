@@ -7,19 +7,18 @@ class Api::NutritionistsController < ApplicationController
 
     if params[:searchBy].present?
       @nutritionists = @nutritionists.where("nutritionists.name LIKE ? or service_types.name LIKE ?", "%#{params[:searchBy]}%", "%#{params[:searchBy]}%")
-      # @nutritionists = @nutritionists.where("service_types.name LIKE ?", "%#{params[:searchBy]}%")
     end
 
     if params[:location].present?
       @nutritionists = @nutritionists.where("locations.name LIKE ?", "%#{params[:location]}%")
     end
 
-    render json: NutritionistBlueprint.render(
-      @nutritionists
-        .joins(services: [:location, :service_type])
-        .includes(services: [:location, :service_type])
-        .distinct
-    )
+    @nutritionists = @nutritionists
+      .joins(services: [:location, :service_type])
+      .includes(services: [:location, :service_type])
+      .distinct
+
+    render json: NutritionistBlueprint.render(@nutritionists)
   end
 
   # GET /nutritionists/1
@@ -31,10 +30,5 @@ class Api::NutritionistsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_nutritionist
       @nutritionist = Nutritionist.find(params.expect(:id))
-    end
-
-    # Only allow a list of trusted parameters through.
-    def nutritionist_params
-      params.expect(nutritionist: [ :name ])
     end
 end

@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
   namespace :api do
 
-    resources :nutritionists, only: [ :index, :show ]
+    resources :nutritionists, only: [ :index, :show ] do
+      resources :services, only: [ :index, :show ] do
+        resources :appointments, only: [ :create ]
+      end
 
-    resources :services, only: [ :index, :show ]
+      resources :appointments, only: [ :index ]
+    end
 
-    resources :appointments, only: [ :index, :show, :create ] do
+    resources :appointments, only: [] do
       member do
         patch 'accept'
         patch 'reject'
