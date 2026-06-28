@@ -1,50 +1,33 @@
 class Api::NutritionistsController < ApplicationController
-  before_action :set_nutritionist, only: %i[ show update destroy ]
+  before_action :set_nutritionist, only: %i[ show ]
 
   # GET /nutritionists
   def index
     @nutritionists = Nutritionist.all
 
     if params[:name].present?
-      @nutritionists = @nutritionists.where("name LIKE ?", "%#{params[:name]}%") if params[:name].present?
+      @nutritionists = @nutritionists.where("nutritionists.name LIKE ?", "%#{params[:name]}%")
     end
 
-    # if params[:location].present?
-    #   @nutritionists = @nutritionists.where("location LIKE ?", "%#{params[:location]}%") if params[:location].present?
-    # end
+    if params[:service_type].present?
+      @nutritionists = @nutritionists.where("service_types.name LIKE ?", "%#{params[:service_type]}%")
+    end
 
-    render json: @nutritionists.includes(services: [:service_type, :location]),
-      include: { services: { include: [:service_type, :location] } }
+    if params[:location].present?
+      @nutritionists = @nutritionists.where("locations.name LIKE ?", "%#{params[:location]}%")
+    end
+
+    render json: NutritionistBlueprint.render(
+      @nutritionists
+        .joins(services: [:location, :service_type])
+        .includes(services: [:location, :service_type])
+        .distinct
+    )
   end
 
   # GET /nutritionists/1
   def show
-    render json: @nutritionist
-  end
-
-  # POST /nutritionists
-  def create
-    @nutritionist = Nutritionist.new(nutritionist_params)
-
-    if @nutritionist.save
-      render json: @nutritionist, status: :created, location: @nutritionist
-    else
-      render json: @nutritionist.errors, status: :unprocessable_content
-    end
-  end
-
-  # PATCH/PUT /nutritionists/1
-  def update
-    if @nutritionist.update(nutritionist_params)
-      render json: @nutritionist
-    else
-      render json: @nutritionist.errors, status: :unprocessable_content
-    end
-  end
-
-  # DELETE /nutritionists/1
-  def destroy
-    @nutritionist.destroy!
+    render json: NutritionistBlueprint.render(@nutritionist)
   end
 
   private
