@@ -1,0 +1,17 @@
+export const C = {
+  green:      "#2e9e82",
+  greenDark:  "#237a65",
+  greenLight: "#e8f5f3",
+  greenBorder:"#b2dfdb",
+  greenMid:   "#b2dfdb",
+  greenText:  "#2e7d6e",
+  orange:     "#f0a080",
+  orangeDark: "#e08a65",
+  bg:         "#f5f7f8",
+  white:      "#ffffff",
+  border:     "#e8edf0",
+  text:       "#1a2b28",
+  sub:        "#888",
+  muted:      "#555",
+  red:        "#e05a5a",
+};
