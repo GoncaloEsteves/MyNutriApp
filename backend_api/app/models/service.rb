@@ -4,4 +4,6 @@ class Service < ApplicationRecord
 
   has_many :nutritionist_services
   has_many :nutritionists, through: :nutritionist_services
+
+  validates :duration, :price, presence: true
 end

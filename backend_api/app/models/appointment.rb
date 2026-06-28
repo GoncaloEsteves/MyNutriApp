@@ -3,6 +3,8 @@ class Appointment < ApplicationRecord
 
   belongs_to :nutritionist_service
 
+  validates :patient_name, :patient_email, :scheduled_date, presence: true
+
   def accept!
     update(status: :accepted)
   end
