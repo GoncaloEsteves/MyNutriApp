@@ -1,0 +1,7 @@
+john_online:
+  nutritionist: john
+  service: john_online_london
+
+emma_clinic:
+  nutritionist: emma
+  service: emma_clinic_manchester

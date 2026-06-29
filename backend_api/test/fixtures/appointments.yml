@@ -1,0 +1,13 @@
+pending_one:
+  nutritionist_service: john_online
+  patient_name: Alice Walker
+  patient_email: alice@example.com
+  scheduled_date: 2026-07-15 10:00:00
+  status: 0
+
+accepted_one:
+  nutritionist_service: emma_clinic
+  patient_name: Bob Turner
+  patient_email: bob@example.com
+  scheduled_date: 2026-07-16 14:00:00
+  status: 1

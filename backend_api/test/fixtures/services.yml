@@ -1,0 +1,13 @@
+# john's service: Online in London (unique service_type+location pair)
+john_online_london:
+  service_type: online
+  location: london
+  duration: 45
+  price: 50.00
+
+# emma's service: Clinic in Manchester (different service_type+location pair)
+emma_clinic_manchester:
+  service_type: clinic
+  location: manchester
+  duration: 60
+  price: 70.00
