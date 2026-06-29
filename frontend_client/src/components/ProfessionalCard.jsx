@@ -2,11 +2,27 @@ import { Avatar } from "../utils/Avatar";
 import { TagBadge } from "../utils/TagBadge";
 import { CalendarIcon } from "../utils/CalendarIcon";
 import { LocationIcon } from "../utils/LocationIcon";
-import { ChevronDown } from "../utils/ChevronDown";
 import { useTranslation } from "react-i18next";
 
 export function ProfessionalCard({ pro }) {
   const { t } = useTranslation();
+
+  const servicesLocations = [... new Set(pro.services.map(s => s.location_name))].join(", ")
+
+  const serviceTypesSet = [... new Set(pro.services.map(s => s.service_type_name))]
+  let serviceTypes = t(serviceTypesSet.sort()[0])
+
+  if (pro.services.length > 1)
+    serviceTypes = t("PatientPage.ProfessionalCard.MoreAppointmentOptions", { value: serviceTypes, count: pro.services.length - 1 })
+
+  const min = pro.services.reduce((acc, s) => {
+    if (s.price < acc)
+      return s.price
+    else
+      return acc
+  }, Number.MAX_SAFE_INTEGER)
+  
+  const priceRange = t("PatientPage.ProfessionalCard.PriceRange", { min })
 
   return (
     <div style={{
@@ -24,32 +40,30 @@ export function ProfessionalCard({ pro }) {
 
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ marginBottom: 6 }}>
-          <TagBadge type={pro.tagType} label={pro.tag} />
+          <TagBadge type={"follow-up"} label={"Follow-up"} />
         </div>
         <div style={{ fontSize: 20, fontWeight: 700, color: "#2e9e82", marginBottom: 2 }}>
           {pro.name}
         </div>
         <div style={{ fontSize: 13, color: "#888", marginBottom: 14 }}>
-          {pro.title} • {pro.code}
+          #{pro.id}
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 0" }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
               <LocationIcon />
-              <span style={{ fontSize: 13, color: "#2e9e82", fontWeight: 600 }}>{pro.location.label}</span>
+              <span style={{ fontSize: 13, color: "#2e9e82", fontWeight: 600 }}>{servicesLocations}</span>
             </div>
-            <div style={{ fontSize: 13, color: "#555", paddingLeft: 21 }}>{pro.location.city}</div>
           </div>
 
           <div style={{ paddingLeft: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
               <CalendarIcon />
-              <span style={{ fontSize: 13, color: "#555" }}>{pro.appointmentType}</span>
-              <ChevronDown />
+              <span style={{ fontSize: 13, color: "#555" }}>{serviceTypes}</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ fontSize: 13, color: "#555" }}>{pro.price}</span>
+              <span style={{ fontSize: 13, color: "#555" }}>{priceRange}</span>
             </div>
           </div>
         </div>

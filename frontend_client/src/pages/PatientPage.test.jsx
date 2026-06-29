@@ -2,6 +2,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PatientPage } from './PatientPage';
 
+jest.mock('../components/ProfessionalCard', () => ({
+  ProfessionalCard: ({ pro }) => <div>{pro.name}</div>,
+}));
+
 function renderPage() {
   render(<PatientPage onHome={() => {}} />);
 }
@@ -21,7 +25,7 @@ test('filters by name', async () => {
   expect(screen.queryByText('Sofia Reis')).not.toBeInTheDocument();
 });
 
-test('filters by city via the search box', async () => {
+test('filters by location_name via the search box', async () => {
   renderPage();
   await userEvent.type(screen.getByPlaceholderText('Name or service'), 'Lisboa');
   expect(screen.getByText('Carlos Mendes')).toBeInTheDocument();

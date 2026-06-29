@@ -19,7 +19,9 @@
     "PatientPage" : {
         "ProfessionalCard" : {
             "ScheduleAppointment" : "Schedule appointment",
-            "Website" : "Website"
+            "Website" : "Website",
+            "MoreAppointmentOptions" : "{{value}} and {{count}} more",
+            "PriceRange" : "From {{min}}€"
         },
         "Search" : {
             "Button" : "Search",
@@ -43,5 +45,10 @@
             "Description" : "Accept or reject new pending requests",
             "NoPendingRequests" : "No pending requests — you're all caught up! 🎉"
         }
+    },
+    "SERVICETYPE" : {
+        "HOMEAPPOINTMENT" : "At-Home Appointment",
+        "CLINICAPPOINTMENT" : "Clinic Appointment",
+        "ONLINEAPPOINTMENT" : "Online Appointment"
     }
 }

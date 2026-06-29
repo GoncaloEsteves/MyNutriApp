@@ -9,38 +9,48 @@ const professionals = [
   {
     id: 1,
     name: "Mary Jane",
-    title: "Dietitian",
-    code: "2963N",
-    tag: "Follow-up",
-    tagType: "follow-up",
-    location: { label: "Online Follow-up", street: "Rua de Leiria", city: "Leiria" },
-    appointmentType: "First appointment",
-    price: "€ 25.00",
-    avatar: null,
+    services: [
+      {
+        id: 1,
+        price: 25.0,
+        duration: 45,
+        service_type_name: "SERVICETYPE.ONLINEAPPOINTMENT",
+        location_name: "Leiria",
+      },
+      {
+        id: 2,
+        price: 40.0,
+        duration: 60,
+        service_type_name: "SERVICETYPE.CLINICAPPOINTMENT",
+        location_name: "Coimbra",
+      },
+    ],
   },
   {
     id: 2,
     name: "Carlos Mendes",
-    title: "Nutritionist",
-    code: "1102N",
-    tag: "New",
-    tagType: "new",
-    location: { label: "In-person", street: "Av. da Liberdade, 45", city: "Lisboa" },
-    appointmentType: "First appointment",
-    price: "€ 40.00",
-    avatar: null,
+    services: [
+      {
+        id: 3,
+        price: 40.0,
+        duration: 60,
+        service_type_name: "SERVICETYPE.HOMEAPPOINTMENT",
+        location_name: "Lisboa",
+      },
+    ],
   },
   {
     id: 3,
     name: "Sofia Reis",
-    title: "Dietitian",
-    code: "3874N",
-    tag: "Follow-up",
-    tagType: "follow-up",
-    location: { label: "Online Follow-up", street: "Rua do Porto, 12", city: "Porto" },
-    appointmentType: "First appointment",
-    price: "€ 30.00",
-    avatar: null,
+    services: [
+      {
+        id: 4,
+        price: 30.0,
+        duration: 45,
+        service_type_name: "SERVICETYPE.CLINICAPPOINTMENT",
+        location_name: "Porto",
+      },
+    ],
   },
 ];
 
@@ -53,8 +63,10 @@ export function PatientPage({ onHome }) {
 
   const filtered = professionals.filter(p =>
     p.name.toLowerCase().includes(search.toLowerCase()) ||
-    p.title.toLowerCase().includes(search.toLowerCase()) ||
-    p.location.city.toLowerCase().includes(search.toLowerCase())
+    p.services.some(s =>
+      s.service_type_name.toLowerCase().includes(search.toLowerCase()) ||
+      s.location_name.toLowerCase().includes(search.toLowerCase())
+    )
   );
 
   return (

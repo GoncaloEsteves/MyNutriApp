@@ -19,7 +19,10 @@
     "PatientPage" : {
         "ProfessionalCard" : {
             "ScheduleAppointment" : "Agendar consulta",
-            "Website" : "Site"
+            "Website" : "Site",
+            "MoreAppointmentOptions_one" : "{{value}} e {{count}} outra",
+            "MoreAppointmentOptions_other" : "{{value}} e {{count}} outras",
+            "PriceRange" : "A partir de {{min}}€"
         },
         "Search" : {
             "Button" : "Procura",
@@ -43,5 +46,10 @@
             "Description" : "Aceitar ou rejeitar novas solicitações pendentes",
             "NoPendingRequests" : "Não há solicitações pendentes — tens tudo a dia! 🎉"
         }
+    },
+    "SERVICETYPE" : {
+        "HOMEAPPOINTMENT" : "Consulta ao Domicílio",
+        "CLINICAPPOINTMENT" : "Consulta em Clínica",
+        "ONLINEAPPOINTMENT" : "Consulta Online"
     }
 }
