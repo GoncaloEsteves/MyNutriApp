@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the home page on load', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByText("I'm a patient")).toBeInTheDocument();
+  expect(screen.getByText("I'm a nutritionist")).toBeInTheDocument();
 });

@@ -88,6 +88,37 @@ Running `db:seed` loads the following sample data:
 
 ---
 
+## Testing
+
+### Backend
+
+Uses Rails' built-in **Minitest**. No additional gems required.
+
+```bash
+cd backend_api
+bin/rails db:test:prepare   # create and load the test database from schema.rb
+bin/rails test              # run all tests
+```
+
+To run a specific file:
+
+```bash
+bin/rails test test/models/appointment_test.rb
+bin/rails test test/controllers/api/nutritionists_controller_test.rb
+```
+
+### Frontend
+
+Uses **React Testing Library + Jest** (included with Create React App).
+
+```bash
+cd frontend_client
+npm test -- --watchAll=false   # single run (CI-style)
+npm test                       # interactive watch mode
+```
+
+---
+
 ## API Endpoints
 
 All routes are namespaced under `/api`.
