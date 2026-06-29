@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { HomePage } from "./pages/HomePage";
+import { PatientPage } from "./pages/PatientPage";
+import { NutritionistPage } from "./pages/NutritionistPage";
 
-function App() {
+// ─── APP ROUTER ───────────────────────────────────────────────────────────────
+
+export default function App() {
+  const [page, setPage] = useState("home");
+
+  if (page === "patient")
+    return <PatientPage onHome={() => setPage("home")} />;
+
+  if (page === "nutritionist")
+    return <NutritionistPage onHome={() => setPage("home")} />;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HomePage
+      onPatient={() => setPage("patient")}
+      onNutritionist={() => setPage("nutritionist")}
+    />
   );
 }
-
-export default App;

@@ -1,0 +1,47 @@
+{
+    "AppName" : "MyNutriApp",
+    "Navbar": {
+        "KnowOurSoftware": "Você é um profissional da nutrição? Conheça nosso software"
+    },
+    "HomePage" : {
+        "Welcome" : "Bem-vindos a ",
+        "Description" : "Estejas a procura de orientação ou a gerir o teu trabalho, escolhe como queres continuar.",
+        "FooterNote" : "Direitos reservados",
+        "HomeCard" : {
+            "PatientTitle" : "Sou paciente",
+            "PatientDescription" : "Encontra um nutricionista perto de ti, verifica a disponibilidade e marca a tua primeira consulta.",
+            "PatientCta" : "Encontra um profissional",
+            "NutritionistTitle" : "Sou um nutricionista",
+            "NutritionistDescription" : "Gere a tua agenda, revê pedidos pendentes e continua em cima das necessidades dos teus clientes.",
+            "NutritionistCta" : "Ir para a minha página"
+        }
+    },
+    "PatientPage" : {
+        "ProfessionalCard" : {
+            "ScheduleAppointment" : "Agendar consulta",
+            "Website" : "Site"
+        },
+        "Search" : {
+            "Button" : "Procura",
+            "Placeholder" : "Nome ou serviço",
+            "LocationPlaceholder" : "Localização"
+        },
+        "NoProfessionalsFound" : "Não foram encontrados profissionais."
+    },
+    "NutritionistPage" : {
+        "RequestCard" : {
+            "AnswerRequest" : "Responder solicitação"
+        },
+        "RequestModal" : {
+            "Accept" : "Aceitar",
+            "Reject" : "Rejeitar"
+        },
+        "AppointmentAccepted" : "Consulta aceite!",
+        "AppointmentRejected" : "Consulta rejeitada.",
+        "PendingRequests" : {
+            "Title" : "Solicitações Pendentes",
+            "Description" : "Aceitar ou rejeitar novas solicitações pendentes",
+            "NoPendingRequests" : "Não há solicitações pendentes — tens tudo a dia! 🎉"
+        }
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "AppName" : "MyNutriApp",
+    "Navbar": {
+        "KnowOurSoftware": "Are you a nutrition professional? Get to know our software"
+    },
+    "HomePage" : {
+        "Welcome" : "Welcome to ",
+        "Description" : "Whether you're looking for expert guidance or managing your practice, choose how you'd like to continue.",
+        "FooterNote" : "All rights reserved",
+        "HomeCard" : {
+            "PatientTitle" : "I'm a patient",
+            "PatientDescription" : "Find a dietitian or nutritionist near you, check availability, and book your first appointment.",
+            "PatientCta" : "Find a professional",
+            "NutritionistTitle" : "I'm a nutritionist",
+            "NutritionistDescription" : "Manage your agenda, review pending appointment requests, and stay on top of your clients' needs.",
+            "NutritionistCta" : "Go to my dashboard"
+        }
+    },
+    "PatientPage" : {
+        "ProfessionalCard" : {
+            "ScheduleAppointment" : "Schedule appointment",
+            "Website" : "Website"
+        },
+        "Search" : {
+            "Button" : "Search",
+            "Placeholder" : "Name or service",
+            "LocationPlaceholder" : "Location"
+        },
+        "NoProfessionalsFound" : "No professionals found."
+    },
+    "NutritionistPage" : {
+        "RequestCard" : {
+            "AnswerRequest" : "Answer request"
+        },
+        "RequestModal" : {
+            "Accept" : "Accept",
+            "Reject" : "Reject"
+        },
+        "AppointmentAccepted" : "Appointment accepted!",
+        "AppointmentRejected" : "Appointment rejected.",
+        "PendingRequests" : {
+            "Title" : "Pending Requests",
+            "Description" : "Accept or reject new pending requests",
+            "NoPendingRequests" : "No pending requests — you're all caught up! 🎉"
+        }
+    }
+}
