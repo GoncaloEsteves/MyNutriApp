@@ -51,4 +51,6 @@ group :development, :test do
   gem "fiddle"
 
   gem 'blueprinter'
+
+  gem 'rack-cors'
 end
