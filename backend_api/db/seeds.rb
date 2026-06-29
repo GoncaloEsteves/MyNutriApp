@@ -21,7 +21,7 @@ puts "Seeded #{locations.count} locations"
 
 # Service types
 service_types = [
-  "Consulta em domicílio", "Consulta em clínica", "Consulta online"
+  "SERVICETYPE.HOMEAPPOINTMENT", "SERVICETYPE.CLINICAPPOINTMENT", "SERVICETYPE.ONLINEAPPOINTMENT"
 ].map { |name| ServiceType.find_or_create_by!(name: name) }
 
 puts "Seeded #{service_types.count} service types"

@@ -82,7 +82,7 @@ Running `db:seed` loads the following sample data:
 
 - **4 nutritionists** — João Silva, Maria Oliveira, Carlos Santos, Ana Costa
 - **3 locations** — Braga, Porto, Lisboa
-- **3 service types** — Home, Clinic, Online consultation
+- **3 service types** — Home, Clinic and Online appointments
 - **6 services** across locations (€30–70 / 30–60 min)
 - **15 sample appointments** scheduled for July 2026
 
