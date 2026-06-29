@@ -6,7 +6,7 @@ class Api::NutritionistsController < ApplicationController
     @nutritionists = Nutritionist.all
 
     if params[:searchBy].present?
-      @nutritionists = @nutritionists.where("nutritionists.name LIKE ? or service_types.name LIKE ?", "%#{params[:searchBy]}%", "%#{params[:searchBy]}%")
+      @nutritionists = @nutritionists.where("nutritionists.name LIKE ? OR service_types.name LIKE ?", "%#{params[:searchBy]}%", "%#{params[:searchBy]}%")
     end
 
     if params[:location].present?

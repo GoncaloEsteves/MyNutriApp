@@ -17,7 +17,18 @@ class Api::AppointmentsController < ApplicationController
     @appointment.nutritionist_service = @nutritionist_service
 
     if @appointment.save
-      # TODO: check for existing appointments for the same patient and delete them
+      pendingAppointments = Appointment.pending.where(
+        "id <> ? AND patient_email = ?",
+        @appointment.id,
+        "#{@appointment.patient_email}"
+      )
+
+      pendingAppointments.each do |pendingApp|
+        if !pendingApp.reject!
+          render json: @appointment.errors, status: :unprocessable_content
+        end
+      end
+
       render json: @appointment, status: :created
     else
       render json: @appointment.errors, status: :unprocessable_content
