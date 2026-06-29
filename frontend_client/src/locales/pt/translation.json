@@ -20,6 +20,7 @@
         "ProfessionalCard" : {
             "ScheduleAppointment" : "Agendar consulta",
             "Website" : "Site",
+            "ViewProfile" : "Ver perfil",
             "MoreAppointmentOptions_one" : "{{value}} e {{count}} outra",
             "MoreAppointmentOptions_other" : "{{value}} e {{count}} outras",
             "PriceRange" : "A partir de {{min}}€"
@@ -29,7 +30,14 @@
             "Placeholder" : "Nome ou serviço",
             "LocationPlaceholder" : "Localização"
         },
-        "NoProfessionalsFound" : "Não foram encontrados profissionais."
+        "NoProfessionalsFound" : "Não foram encontrados profissionais.",
+        "Error" : "Falha ao carregar profissionais. Por favor, tente novamente.",
+        "Retry" : "Tentar novamente"
+    },
+    "NutritionistDetailPage" : {
+        "Back" : "Voltar à pesquisa",
+        "Error" : "Falha ao carregar o perfil do nutricionista. Por favor, tente novamente.",
+        "Retry" : "Tentar novamente"
     },
     "NutritionistPage" : {
         "RequestCard" : {

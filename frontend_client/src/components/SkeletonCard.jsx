@@ -1,6 +1,7 @@
 export function SkeletonCard() {
   return (
     <div
+      data-testid="skeleton-card"
       style={{
         background: "#fff",
         borderRadius: 10,

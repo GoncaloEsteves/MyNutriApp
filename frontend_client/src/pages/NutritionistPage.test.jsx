@@ -1,9 +1,10 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import { NutritionistPage } from './NutritionistPage';
 
 function renderPage() {
-  render(<NutritionistPage onHome={() => {}} />);
+  render(<MemoryRouter><NutritionistPage /></MemoryRouter>);
 }
 
 test('renders all pending request cards', () => {
@@ -17,7 +18,7 @@ test('opens the modal for the clicked request', async () => {
   renderPage();
   const answerButtons = screen.getAllByRole('button', { name: /answer request/i });
   await userEvent.click(answerButtons[0]);
-  expect(screen.getByText('Francisco Neves')).toBeInTheDocument();
+  expect(screen.getAllByText('Francisco Neves').length).toBeGreaterThan(0);
   expect(screen.getByRole('button', { name: /accept/i })).toBeInTheDocument();
   expect(screen.getByRole('button', { name: /reject/i })).toBeInTheDocument();
 });

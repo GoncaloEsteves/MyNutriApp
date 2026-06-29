@@ -31,7 +31,7 @@ const initialRequests = [
   },
 ];
 
-export function NutritionistPage({ onHome }) {
+export function NutritionistPage() {
   const { t } = useTranslation();
 
   const [requests, setRequests] = useState(initialRequests);
@@ -57,7 +57,7 @@ export function NutritionistPage({ onHome }) {
 
   return (
     <div style={{ fontFamily: "'Segoe UI', Arial, sans-serif", minHeight: "100vh", background: C.bg }}>
-      <Navbar onHome={onHome} />
+      <Navbar />
       <div style={{ maxWidth: 860, margin: "36px auto", padding: "0 20px" }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 20 }}>
           <div>

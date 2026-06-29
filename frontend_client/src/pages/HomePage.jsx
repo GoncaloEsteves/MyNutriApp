@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from "../components/Navbar";
 import { HomeCard } from "../components/HomeCard";
 import { C } from "../utils/consts";
 import { useTranslation } from "react-i18next";
 
-export function HomePage({ onPatient, onNutritionist }) {
-  const { t } = useTranslation()
+export function HomePage() {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div style={{ fontFamily: "'Segoe UI', Arial, sans-serif", minHeight: "100vh", background: C.bg }}>
-      <Navbar onHome={() => {}} />
+      <Navbar />
 
       <div style={{ background: C.green, padding: "48px 32px 56px", textAlign: "center" }}>
         <div
@@ -69,15 +70,15 @@ export function HomePage({ onPatient, onNutritionist }) {
           display: "flex",
           gap: 24,
           justifyContent: "center",
-          flexWrap: "wrap"
-          }}
-        >
+          flexWrap: "wrap",
+        }}
+      >
         <HomeCard
           title={t("HomePage.HomeCard.PatientTitle")}
           description={t("HomePage.HomeCard.PatientDescription")}
           cta={t("HomePage.HomeCard.PatientCta")}
           accent={C.green}
-          onClick={onPatient}
+          onClick={() => navigate('/patient')}
           icon={(hov) => (
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
               stroke={hov ? C.white : C.green} strokeWidth="2">
@@ -86,13 +87,12 @@ export function HomePage({ onPatient, onNutritionist }) {
             </svg>
           )}
         />
-
         <HomeCard
           title={t("HomePage.HomeCard.NutritionistTitle")}
           description={t("HomePage.HomeCard.NutritionistDescription")}
           cta={t("HomePage.HomeCard.NutritionistCta")}
           accent={C.orange}
-          onClick={onNutritionist}
+          onClick={() => navigate('/dashboard')}
           icon={(hov) => (
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
               stroke={hov ? C.white : C.orange} strokeWidth="2">

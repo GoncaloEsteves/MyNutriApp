@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Avatar } from "../utils/Avatar";
 import { TagBadge } from "../utils/TagBadge";
 import { CalendarIcon } from "../utils/CalendarIcon";
@@ -6,13 +7,14 @@ import { useTranslation } from "react-i18next";
 
 export function ProfessionalCard({ pro }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const servicesLocations = [... new Set(pro.services.map(s => s.location_name))].join(", ")
 
   const serviceTypesSet = [... new Set(pro.services.map(s => s.service_type_name))]
   let serviceTypes = t(serviceTypesSet.sort()[0])
 
-  if (pro.services.length > 1)
+  if (serviceTypesSet.length > 1)
     serviceTypes = t("PatientPage.ProfessionalCard.MoreAppointmentOptions", { value: serviceTypes, count: pro.services.length - 1 })
 
   const min = pro.services.reduce((acc, s) => {
@@ -86,20 +88,22 @@ export function ProfessionalCard({ pro }) {
         >
           {t("PatientPage.ProfessionalCard.ScheduleAppointment")}
         </button>
-        <button style={{
-          background: "#e8f5f3",
-          color: "#2e9e82",
-          border: "1px solid #b2dfdb",
-          borderRadius: 6,
-          padding: "9px 18px",
-          fontSize: 13,
-          fontWeight: 600,
-          cursor: "pointer",
-        }}
+        <button
+          onClick={() => navigate(`/nutritionists/${pro.id}`)}
+          style={{
+            background: "#e8f5f3",
+            color: "#2e9e82",
+            border: "1px solid #b2dfdb",
+            borderRadius: 6,
+            padding: "9px 18px",
+            fontSize: 13,
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
           onMouseOver={e => { e.target.style.background = "#d0eeea"; }}
           onMouseOut={e => { e.target.style.background = "#e8f5f3"; }}
         >
-          {t("PatientPage.ProfessionalCard.Website")}
+          {t("PatientPage.ProfessionalCard.ViewProfile")}
         </button>
       </div>
     </div>

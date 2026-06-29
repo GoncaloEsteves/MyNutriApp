@@ -20,6 +20,7 @@
         "ProfessionalCard" : {
             "ScheduleAppointment" : "Schedule appointment",
             "Website" : "Website",
+            "ViewProfile" : "View profile",
             "MoreAppointmentOptions" : "{{value}} and {{count}} more",
             "PriceRange" : "From {{min}}€"
         },
@@ -28,7 +29,14 @@
             "Placeholder" : "Name or service",
             "LocationPlaceholder" : "Location"
         },
-        "NoProfessionalsFound" : "No professionals found."
+        "NoProfessionalsFound" : "No professionals found.",
+        "Error" : "Failed to load professionals. Please try again.",
+        "Retry" : "Retry"
+    },
+    "NutritionistDetailPage" : {
+        "Back" : "Back to search",
+        "Error" : "Failed to load nutritionist profile. Please try again.",
+        "Retry" : "Retry"
     },
     "NutritionistPage" : {
         "RequestCard" : {

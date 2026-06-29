@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { C } from "../utils/consts";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
-export function Navbar({ onHome }) {
+export function Navbar() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <nav
@@ -17,7 +19,7 @@ export function Navbar({ onHome }) {
       }}
     >
       <button
-        onClick={onHome}
+        onClick={() => navigate('/')}
         style={{
           background: "none",
           border: "none",
@@ -28,7 +30,8 @@ export function Navbar({ onHome }) {
           color: C.white,
           fontWeight: 700,
           fontSize: 20,
-          padding: 0 }}
+          padding: 0,
+        }}
       >
         {t("AppName")}
       </button>
