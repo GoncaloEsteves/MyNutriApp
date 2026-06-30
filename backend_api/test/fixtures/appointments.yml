@@ -11,3 +11,19 @@ accepted_one:
   patient_email: bob@example.com
   scheduled_date: 2026-07-16 14:00:00
   status: 1
+
+# Overlaps with pending_one (john, 10:00–10:45): starts at 10:30, within the window
+pending_overlap:
+  nutritionist_service: john_online
+  patient_name: Carol Davis
+  patient_email: carol@example.com
+  scheduled_date: 2026-07-15 10:30:00
+  status: 0
+
+# Does NOT overlap with pending_one: starts exactly at 10:45 (boundary, not inside)
+pending_no_overlap:
+  nutritionist_service: john_online
+  patient_name: David Lee
+  patient_email: david@example.com
+  scheduled_date: 2026-07-15 10:45:00
+  status: 0

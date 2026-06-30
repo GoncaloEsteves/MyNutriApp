@@ -16,35 +16,47 @@ class Api::AppointmentsController < ApplicationController
   def create
     @appointment = Appointment.new(appointment_params)
     @appointment.nutritionist_service = @nutritionist_service
+  
+    ActiveRecord::Base.transaction do
+      unless @appointment.save
+        render json: @appointment.errors, status: :unprocessable_content
+        raise ActiveRecord::Rollback
+      end
 
-    if @appointment.save
-      pendingAppointments = Appointment.pending.where(
-        "id <> ? AND patient_email = ?",
-        @appointment.id,
-        "#{@appointment.patient_email}"
-      )
+      pendingAppointments = Appointment.pending
+        .where.not(id: @appointment.id)
+        .where(patient_email: @appointment.patient_email)
 
       pendingAppointments.each do |pendingApp|
-        if !pendingApp.reject!
+        unless pendingApp.reject!
           render json: @appointment.errors, status: :unprocessable_content
+          raise ActiveRecord::Rollback
         end
       end
 
       render json: @appointment, status: :created
-    else
-      render json: @appointment.errors, status: :unprocessable_content
     end
   end
 
   # PATCH/PUT /appointments/1/accept
   def accept
-    if @appointment.accept!
-      # TODO: reject overlapping appointments for the same nutritionist
-      NotifierMailer.appointment_accepted(@appointment.patient_email).deliver_now
+    ActiveRecord::Base.transaction do
+      unless @appointment.accept!
+        render json: @appointment.errors, status: :unprocessable_content
+        raise ActiveRecord::Rollback
+      end
 
+      @appointment.overlapping_pending_for_nutritionist.each do |overlap|
+        unless overlap.reject!
+          render json: overlap.errors, status: :unprocessable_content
+          raise ActiveRecord::Rollback
+        end
+
+        NotifierMailer.appointment_rejected(overlap.patient_email).deliver_now
+      end
+
+      NotifierMailer.appointment_accepted(@appointment.patient_email).deliver_now
       render json: AppointmentBlueprint.render(@appointment)
-    else
-      render json: @appointment.errors, status: :unprocessable_content
     end
   end
 
