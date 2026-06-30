@@ -18,8 +18,8 @@ class Api::NutritionistsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "John Smith", body.first["name"]
   end
 
-  test "GET /api/nutritionists filters by service type name via searchBy" do
-    get "/api/nutritionists", params: { searchBy: "Online" }
+  test "GET /api/nutritionists filters by service type id via service_type" do
+    get "/api/nutritionists", params: { service_type: service_types(:online).id }
     assert_response :ok
     body = JSON.parse(response.body)
     assert_equal 1, body.length
