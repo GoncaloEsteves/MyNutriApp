@@ -119,6 +119,21 @@ npm test                       # interactive watch mode
 
 ---
 
+## Email Setup (Gmail SMTP)
+
+The backend uses Gmail's SMTP server to send emails (e.g. appointment notifications). Credentials are read from the `.env` file above.
+
+### Prerequisites
+
+1. **Enable 2-Step Verification** on your Google account at https://myaccount.google.com/security.
+
+2. **Create an App Password** at https://myaccount.google.com/apppasswords.
+   - Select app: *Mail*
+   - Select device: *Other* (give it any name, e.g. "MyNutriApp")
+   - Copy the generated 16-character password and set it as `GMAIL_APP_PASSWORD` in your `.env`.
+
+---
+
 ## Environment Variables
 
 Credentials are loaded from a `.env` file in `backend_api/`. This file is gitignored and must never be committed.
@@ -140,21 +155,6 @@ GMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx
 ```
 
 The `dotenv-rails` gem loads this file automatically in development and test environments.
-
----
-
-## Email Setup (Gmail SMTP)
-
-The backend uses Gmail's SMTP server to send emails (e.g. appointment notifications). Credentials are read from the `.env` file above.
-
-### Prerequisites
-
-1. **Enable 2-Step Verification** on your Google account at https://myaccount.google.com/security.
-
-2. **Create an App Password** at https://myaccount.google.com/apppasswords.
-   - Select app: *Mail*
-   - Select device: *Other* (give it any name, e.g. "MyNutriApp")
-   - Copy the generated 16-character password and set it as `GMAIL_APP_PASSWORD` in your `.env`.
 
 ---
 
@@ -218,10 +218,6 @@ All routes are namespaced under `/api`.
 
 ## TODOs
 
-- [ ] Prevent duplicate bookings — delete any existing appointment for the same patient before creating a new one
 - [ ] Reject overlapping appointments for the same nutritionist at the same time slot
-- [ ] Send confirmation email to patient when appointment is accepted
-- [ ] Send rejection email to patient when appointment is rejected
-- [ ] Connect frontend to backend API (currently using placeholder/mock data)
-- [ ] Enable CORS in the backend to allow frontend requests
-- [ ] Implement the `services/` API layer in the frontend (`frontend_client/src/services/` is empty)
+- [ ] Search by service name is broken — backend filters on service codes instead of translated names, regressed when switching to codes for i18n support
+- [ ] Search by location ignores distance — only matches on location name; should rank/filter by proximity and default to "Braga" when no location is specified
