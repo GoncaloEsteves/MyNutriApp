@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getNutritionists } from '../api/nutritionists';
 
-export function useNutritionists({ searchBy, location }) {
+export function useNutritionists({ searchBy, location, serviceType }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ export function useNutritionists({ searchBy, location }) {
     const controller = new AbortController();
     setLoading(true);
     setError(null);
-    getNutritionists({ searchBy, location }, controller.signal)
+    getNutritionists({ searchBy, location, serviceType }, controller.signal)
       .then(d => {
         setData(d);
         setLoading(false);
@@ -23,7 +23,7 @@ export function useNutritionists({ searchBy, location }) {
         }
       });
     return () => controller.abort();
-  }, [searchBy, location, tick]);
+  }, [searchBy, location, serviceType, tick]);
 
   const refetch = useCallback(() => setTick(t => t + 1), []);
 

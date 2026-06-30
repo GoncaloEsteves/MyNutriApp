@@ -45,6 +45,15 @@ describe('getNutritionists', () => {
     });
   });
 
+  it('includes service_type in params when serviceType is non-empty', async () => {
+    client.get.mockResolvedValue({ data: [] });
+    await getNutritionists({ searchBy: '', location: '', serviceType: 2 });
+    expect(client.get).toHaveBeenCalledWith('/nutritionists', {
+      params: { service_type: 2 },
+      signal: undefined,
+    });
+  });
+
   it('returns response.data', async () => {
     const mockData = [{ id: 1, name: 'Mary', services: [] }];
     client.get.mockResolvedValue({ data: mockData });

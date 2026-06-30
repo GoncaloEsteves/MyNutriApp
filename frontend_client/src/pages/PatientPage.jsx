@@ -1,21 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProfessionalCard } from "../components/ProfessionalCard";
 import { SkeletonCard } from "../components/SkeletonCard";
 import { Navbar } from "../components/Navbar";
 import { C } from "../utils/consts";
 import { useTranslation } from "react-i18next";
 import { useNutritionists } from "../hooks/useNutritionists";
+import { getServiceTypes } from "../api/serviceTypes";
 
 export function PatientPage() {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState("");
+  const [serviceTypeSelect, setServiceTypeSelect] = useState(undefined);
   const [locationInput, setLocationInput] = useState("");
-  const [query, setQuery] = useState({ searchBy: "", location: "" });
+  const [query, setQuery] = useState({ searchBy: "", location: "", serviceType: undefined });
+  const [serviceTypes, setServiceTypes] = useState([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    getServiceTypes(controller.signal).then(setServiceTypes).catch(() => {});
+    return () => controller.abort();
+  }, []);
 
   const { data, loading, error, refetch } = useNutritionists(query);
 
   function commitSearch() {
-    setQuery({ searchBy: searchInput, location: locationInput });
+    setQuery({ searchBy: searchInput, location: locationInput, serviceType: serviceTypeSelect });
   }
 
   function handleKeyDown(e) {
@@ -43,6 +52,26 @@ export function PatientPage() {
               background: C.white,
             }}
           />
+          <select
+            value={serviceTypeSelect}
+            onChange={e => setServiceTypeSelect(Number(e.target.value))}
+            style={{
+              flex: 1,
+              padding: "11px 16px",
+              borderRadius: 6,
+              border: "none",
+              fontSize: 14,
+              outline: "none",
+              color: serviceTypeSelect ? "#333" : "#aaa",
+              background: C.white,
+              cursor: "pointer",
+            }}
+          >
+            <option value="">{t("PatientPage.Search.ServiceTypePlaceholder")}</option>
+            {serviceTypes.map(st => (
+              <option key={st.id} value={st.id}>{t(st.name)}</option>
+            ))}
+          </select>
           <div
             style={{
               flex: 1,

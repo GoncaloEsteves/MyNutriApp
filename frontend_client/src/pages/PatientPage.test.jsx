@@ -3,8 +3,15 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { PatientPage } from './PatientPage';
 import * as api from '../api/nutritionists';
+import * as serviceTypesApi from '../api/serviceTypes';
 
 jest.mock('../api/nutritionists');
+jest.mock('../api/serviceTypes');
+
+const mockServiceTypes = [
+  { id: 1, name: 'Online' },
+  { id: 2, name: 'Clinic' },
+];
 jest.mock('../components/ProfessionalCard', () => ({
   ProfessionalCard: ({ pro }) => <div data-testid="pro-card">{pro.name}</div>,
 }));
@@ -18,7 +25,10 @@ function renderPage() {
   render(<MemoryRouter><PatientPage /></MemoryRouter>);
 }
 
-beforeEach(() => jest.clearAllMocks());
+beforeEach(() => {
+  jest.clearAllMocks();
+  serviceTypesApi.getServiceTypes.mockResolvedValue(mockServiceTypes);
+});
 
 test('shows skeleton cards while loading', () => {
   api.getNutritionists.mockReturnValue(new Promise(() => {}));
@@ -66,11 +76,11 @@ test('Search button commits query and triggers refetch with searchBy param', asy
   api.getNutritionists.mockResolvedValue([]);
   renderPage();
   await waitFor(() => expect(api.getNutritionists).toHaveBeenCalledTimes(1));
-  await userEvent.type(screen.getByPlaceholderText('Name or service'), 'Mary');
+  await userEvent.type(screen.getByPlaceholderText('Name'), 'Mary');
   await userEvent.click(screen.getByRole('button', { name: /search/i }));
   await waitFor(() => expect(api.getNutritionists).toHaveBeenCalledTimes(2));
   expect(api.getNutritionists).toHaveBeenLastCalledWith(
-    { searchBy: 'Mary', location: '' },
+    { searchBy: 'Mary', location: '', serviceType: undefined },
     expect.anything()
   );
 });
@@ -83,7 +93,7 @@ test('Search button commits location param', async () => {
   await userEvent.click(screen.getByRole('button', { name: /search/i }));
   await waitFor(() => expect(api.getNutritionists).toHaveBeenCalledTimes(2));
   expect(api.getNutritionists).toHaveBeenLastCalledWith(
-    { searchBy: '', location: 'Porto' },
+    { searchBy: '', location: 'Porto', serviceType: undefined },
     expect.anything()
   );
 });
@@ -92,10 +102,24 @@ test('pressing Enter in the name input commits query', async () => {
   api.getNutritionists.mockResolvedValue([]);
   renderPage();
   await waitFor(() => expect(api.getNutritionists).toHaveBeenCalledTimes(1));
-  await userEvent.type(screen.getByPlaceholderText('Name or service'), 'Carlos{Enter}');
+  await userEvent.type(screen.getByPlaceholderText('Name'), 'Carlos{Enter}');
   await waitFor(() => expect(api.getNutritionists).toHaveBeenCalledTimes(2));
   expect(api.getNutritionists).toHaveBeenLastCalledWith(
-    { searchBy: 'Carlos', location: '' },
+    { searchBy: 'Carlos', location: '', serviceType: undefined },
+    expect.anything()
+  );
+});
+
+test('Search button commits service type param', async () => {
+  api.getNutritionists.mockResolvedValue([]);
+  renderPage();
+  await waitFor(() => expect(api.getNutritionists).toHaveBeenCalledTimes(1));
+  await waitFor(() => expect(screen.getByRole('combobox')).toBeInTheDocument());
+  await userEvent.selectOptions(screen.getByRole('combobox'), '1');
+  await userEvent.click(screen.getByRole('button', { name: /search/i }));
+  await waitFor(() => expect(api.getNutritionists).toHaveBeenCalledTimes(2));
+  expect(api.getNutritionists).toHaveBeenLastCalledWith(
+    { searchBy: '', location: '', serviceType: 1 },
     expect.anything()
   );
 });
