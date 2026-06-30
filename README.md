@@ -67,14 +67,14 @@ npm start          # http://localhost:3000
 
 ## Database
 
-Default credentials (configured in `config/database.yml`):
+Credentials are configured via environment variables in `backend_api/.env`:
 
-```
-username: postgres
-password: Passw0rd
+```env
+DB_USERNAME=postgres
+DB_PASSWORD=your_postgres_password
 ```
 
-Please change them if needed.
+`DB_USERNAME` defaults to `postgres` if not set. See the [Environment Variables](#environment-variables) section for setup instructions.
 
 ### Seed data
 
@@ -116,6 +116,45 @@ cd frontend_client
 npm test -- --watchAll=false   # single run (CI-style)
 npm test                       # interactive watch mode
 ```
+
+---
+
+## Environment Variables
+
+Credentials are loaded from a `.env` file in `backend_api/`. This file is gitignored and must never be committed.
+
+### Setup
+
+```bash
+cp backend_api/.env.example backend_api/.env
+```
+
+Then open `backend_api/.env` and fill in your values:
+
+```env
+DB_USERNAME=postgres
+DB_PASSWORD=your_postgres_password
+
+GMAIL_USER=yourname@gmail.com
+GMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx
+```
+
+The `dotenv-rails` gem loads this file automatically in development and test environments.
+
+---
+
+## Email Setup (Gmail SMTP)
+
+The backend uses Gmail's SMTP server to send emails (e.g. appointment notifications). Credentials are read from the `.env` file above.
+
+### Prerequisites
+
+1. **Enable 2-Step Verification** on your Google account at https://myaccount.google.com/security.
+
+2. **Create an App Password** at https://myaccount.google.com/apppasswords.
+   - Select app: *Mail*
+   - Select device: *Other* (give it any name, e.g. "MyNutriApp")
+   - Copy the generated 16-character password and set it as `GMAIL_APP_PASSWORD` in your `.env`.
 
 ---
 
