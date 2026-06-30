@@ -96,6 +96,27 @@ class Api::AppointmentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "PATCH accept rejects pending appointments that overlap for the same nutritionist" do
+    appt    = appointments(:pending_one)
+    overlap = appointments(:pending_overlap)
+
+    patch "/api/appointments/#{appt.id}/accept"
+
+    assert_response :ok
+    assert appt.reload.accepted?
+    assert overlap.reload.rejected?
+  end
+
+  test "PATCH accept does not reject a pending appointment starting exactly at the accepted appointment's end time" do
+    appt         = appointments(:pending_one)
+    no_overlap   = appointments(:pending_no_overlap)
+
+    patch "/api/appointments/#{appt.id}/accept"
+
+    assert_response :ok
+    assert no_overlap.reload.pending?
+  end
+
   # --- reject ---
 
   test "PATCH /api/appointments/:id/reject transitions to rejected" do
