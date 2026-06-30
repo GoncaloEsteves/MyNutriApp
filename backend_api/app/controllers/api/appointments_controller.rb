@@ -7,8 +7,9 @@ class Api::AppointmentsController < ApplicationController
   def index
     @appointments = Appointment.joins(:nutritionist_service)
       .where(nutritionist_services: { nutritionist_id: @nutritionist.id })
+      .includes(nutritionist_service: { service: [ :service_type, :location ] })
 
-    render json: @appointments
+    render json: AppointmentBlueprint.render(@appointments)
   end
 
   # POST /nutritionists/1/services/1/appointments
@@ -41,7 +42,7 @@ class Api::AppointmentsController < ApplicationController
       # TODO: reject overlapping appointments for the same nutritionist
       NotifierMailer.appointment_accepted(@appointment.patient_email).deliver_now
 
-      render json: @appointment
+      render json: AppointmentBlueprint.render(@appointment)
     else
       render json: @appointment.errors, status: :unprocessable_content
     end
@@ -52,7 +53,7 @@ class Api::AppointmentsController < ApplicationController
     if @appointment.reject!
       NotifierMailer.appointment_rejected(@appointment.patient_email).deliver_now
 
-      render json: @appointment
+      render json: AppointmentBlueprint.render(@appointment)
     else
       render json: @appointment.errors, status: :unprocessable_content
     end

@@ -62,19 +62,35 @@
         "Retry" : "Tentar novamente"
     },
     "NutritionistPage" : {
-        "RequestCard" : {
-            "AnswerRequest" : "Responder solicitação"
+        "Title" : "Consultas",
+        "Subtitle" : "Reveja e faça a gestão dos seus pedidos de consulta",
+        "Tabs" : {
+            "Pending" : "Pendentes",
+            "Accepted" : "Aceites",
+            "Rejected" : "Rejeitadas"
         },
-        "RequestModal" : {
-            "Accept" : "Aceitar",
-            "Reject" : "Rejeitar"
+        "Status" : {
+            "pending" : "Pendente",
+            "accepted" : "Aceite",
+            "rejected" : "Rejeitada"
         },
+        "Accept" : "Aceitar",
+        "Reject" : "Rejeitar",
+        "Empty" : {
+            "pending" : "Não há pedidos pendentes — está tudo em dia! 🎉",
+            "accepted" : "Ainda não há consultas aceites.",
+            "rejected" : "Não há consultas rejeitadas."
+        },
+        "Error" : "Falha ao carregar as consultas. Por favor, tente novamente.",
+        "Retry" : "Tentar novamente",
+        "ActionFailed" : "Algo correu mal. Por favor, tente novamente.",
         "AppointmentAccepted" : "Consulta aceite!",
         "AppointmentRejected" : "Consulta rejeitada.",
-        "PendingRequests" : {
-            "Title" : "Solicitações Pendentes",
-            "Description" : "Aceitar ou rejeitar novas solicitações pendentes",
-            "NoPendingRequests" : "Não há solicitações pendentes — tens tudo a dia! 🎉"
+        "Picker" : {
+            "Title" : "Selecione um nutricionista",
+            "Error" : "Falha ao carregar nutricionistas. Por favor, tente novamente.",
+            "Retry" : "Tentar novamente",
+            "Close" : "Fechar"
         }
     },
     "SERVICETYPE" : {

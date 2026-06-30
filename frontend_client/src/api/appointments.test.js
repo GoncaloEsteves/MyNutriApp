@@ -1,9 +1,14 @@
 import client from './client';
-import { requestAppointment } from './appointments';
+import {
+  requestAppointment,
+  getNutritionistAppointments,
+  acceptAppointment,
+  rejectAppointment,
+} from './appointments';
 
 jest.mock('./client', () => ({
   __esModule: true,
-  default: { post: jest.fn() },
+  default: { get: jest.fn(), post: jest.fn(), patch: jest.fn() },
 }));
 
 beforeEach(() => jest.clearAllMocks());
@@ -40,5 +45,53 @@ describe('requestAppointment', () => {
       { appointment: {} },
       { signal },
     );
+  });
+});
+
+describe('getNutritionistAppointments', () => {
+  it('GETs the nested appointments path', async () => {
+    client.get.mockResolvedValue({ data: [] });
+    await getNutritionistAppointments(7);
+    expect(client.get).toHaveBeenCalledWith('/nutritionists/7/appointments', {
+      signal: undefined,
+    });
+  });
+
+  it('returns response.data', async () => {
+    const data = [{ id: 1, status: 'pending' }];
+    client.get.mockResolvedValue({ data });
+    const result = await getNutritionistAppointments(7);
+    expect(result).toEqual(data);
+  });
+
+  it('passes the signal through', async () => {
+    client.get.mockResolvedValue({ data: [] });
+    const signal = new AbortController().signal;
+    await getNutritionistAppointments(7, signal);
+    expect(client.get).toHaveBeenCalledWith('/nutritionists/7/appointments', { signal });
+  });
+});
+
+describe('acceptAppointment', () => {
+  it('PATCHes the accept path and returns data', async () => {
+    const data = { id: 3, status: 'accepted' };
+    client.patch.mockResolvedValue({ data });
+    const result = await acceptAppointment(3);
+    expect(client.patch).toHaveBeenCalledWith('/appointments/3/accept', null, {
+      signal: undefined,
+    });
+    expect(result).toEqual(data);
+  });
+});
+
+describe('rejectAppointment', () => {
+  it('PATCHes the reject path and returns data', async () => {
+    const data = { id: 3, status: 'rejected' };
+    client.patch.mockResolvedValue({ data });
+    const result = await rejectAppointment(3);
+    expect(client.patch).toHaveBeenCalledWith('/appointments/3/reject', null, {
+      signal: undefined,
+    });
+    expect(result).toEqual(data);
   });
 });

@@ -1,42 +1,74 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { NutritionistPage } from './NutritionistPage';
+import * as appointmentsHook from '../hooks/useAppointments';
+import * as appointmentsApi from '../api/appointments';
+
+jest.mock('../hooks/useAppointments');
+jest.mock('../api/appointments');
+
+const base = {
+  service_type_name: 'Online',
+  location_name: 'London',
+  scheduled_date: '2026-07-15T10:00:00.000Z',
+};
+const appts = [
+  { ...base, id: 1, patient_name: 'Alice Pending', patient_email: 'a@x.com', status: 'pending' },
+  { ...base, id: 2, patient_name: 'Bob Accepted', patient_email: 'b@x.com', status: 'accepted' },
+  { ...base, id: 3, patient_name: 'Carol Rejected', patient_email: 'c@x.com', status: 'rejected' },
+];
 
 function renderPage() {
-  render(<MemoryRouter><NutritionistPage /></MemoryRouter>);
+  render(
+    <MemoryRouter initialEntries={['/dashboard/9']}>
+      <Routes>
+        <Route path="/dashboard/:id" element={<NutritionistPage />} />
+      </Routes>
+    </MemoryRouter>,
+  );
 }
 
-test('renders all pending request cards', () => {
-  renderPage();
-  expect(screen.getByText('Francisco Neves')).toBeInTheDocument();
-  expect(screen.getByText('Ana Costa')).toBeInTheDocument();
-  expect(screen.getByText('Miguel Santos')).toBeInTheDocument();
+beforeEach(() => {
+  jest.clearAllMocks();
+  appointmentsHook.useAppointments.mockReturnValue({
+    data: appts, loading: false, error: null, refetch: jest.fn(),
+  });
 });
 
-test('opens the modal for the clicked request', async () => {
+test('shows the pending appointments by default', () => {
   renderPage();
-  const answerButtons = screen.getAllByRole('button', { name: /answer request/i });
-  await userEvent.click(answerButtons[0]);
-  expect(screen.getAllByText('Francisco Neves').length).toBeGreaterThan(0);
-  expect(screen.getByRole('button', { name: /accept/i })).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: /reject/i })).toBeInTheDocument();
+  expect(screen.getByText('Alice Pending')).toBeInTheDocument();
+  expect(screen.queryByText('Bob Accepted')).not.toBeInTheDocument();
 });
 
-test('accept removes the request and shows success toast', async () => {
+test('switches to the Accepted tab', async () => {
   renderPage();
-  const answerButtons = screen.getAllByRole('button', { name: /answer request/i });
-  await userEvent.click(answerButtons[0]);
-  await userEvent.click(screen.getByRole('button', { name: /accept/i }));
-  expect(screen.queryByText('Francisco Neves')).not.toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: /accepted/i }));
+  expect(screen.getByText('Bob Accepted')).toBeInTheDocument();
+  expect(screen.queryByText('Alice Pending')).not.toBeInTheDocument();
+});
+
+test('accepting a pending appointment calls the API, moves it, and shows a toast', async () => {
+  appointmentsApi.acceptAppointment.mockResolvedValue({ ...appts[0], status: 'accepted' });
+  renderPage();
+  await userEvent.click(screen.getByRole('button', { name: /^accept$/i }));
+  expect(appointmentsApi.acceptAppointment).toHaveBeenCalledWith(1);
+  await waitFor(() =>
+    expect(screen.queryByText('Alice Pending')).not.toBeInTheDocument(),
+  );
   expect(screen.getByText('Appointment accepted!')).toBeInTheDocument();
+  // Switch to Accepted tab and confirm Alice is there
+  fireEvent.click(screen.getByRole('button', { name: /Accepted/i }));
+  expect(screen.getByText('Alice Pending')).toBeInTheDocument();
 });
 
-test('reject removes the request and shows rejection toast', async () => {
+test('rejecting a pending appointment calls the API and shows a toast', async () => {
+  appointmentsApi.rejectAppointment.mockResolvedValue({ ...appts[0], status: 'rejected' });
   renderPage();
-  const answerButtons = screen.getAllByRole('button', { name: /answer request/i });
-  await userEvent.click(answerButtons[0]);
-  await userEvent.click(screen.getByRole('button', { name: /reject/i }));
-  expect(screen.queryByText('Francisco Neves')).not.toBeInTheDocument();
-  expect(screen.getByText('Appointment rejected.')).toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: /^reject$/i }));
+  expect(appointmentsApi.rejectAppointment).toHaveBeenCalledWith(1);
+  await waitFor(() =>
+    expect(screen.getByText('Appointment rejected.')).toBeInTheDocument(),
+  );
 });

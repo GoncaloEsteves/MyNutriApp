@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from "../components/Navbar";
 import { HomeCard } from "../components/HomeCard";
+import { NutritionistPickerModal } from "../components/NutritionistPickerModal";
 import { C } from "../utils/consts";
 import { useTranslation } from "react-i18next";
 
 export function HomePage() {
-  const navigate = useNavigate();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   return (
     <div style={{ fontFamily: "'Segoe UI', Arial, sans-serif", minHeight: "100vh", background: C.bg }}>
@@ -92,7 +95,7 @@ export function HomePage() {
           description={t("HomePage.HomeCard.NutritionistDescription")}
           cta={t("HomePage.HomeCard.NutritionistCta")}
           accent={C.orange}
-          onClick={() => navigate('/dashboard')}
+          onClick={() => setPickerOpen(true)}
           icon={(hov) => (
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
               stroke={hov ? C.white : C.orange} strokeWidth="2">
@@ -105,6 +108,9 @@ export function HomePage() {
       <p style={{ textAlign: "center", fontSize: 12, color: "#aaa", paddingBottom: 32 }}>
         © {new Date().getFullYear()} {t("AppName")} · {t("HomePage.FooterNote")}
       </p>
+      {pickerOpen && (
+        <NutritionistPickerModal onClose={() => setPickerOpen(false)} />
+      )}
     </div>
   );
 }

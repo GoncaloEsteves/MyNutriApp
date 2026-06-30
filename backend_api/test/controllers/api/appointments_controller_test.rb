@@ -24,6 +24,17 @@ class Api::AppointmentsControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes patient_names, "Bob Turner"
   end
 
+  test "GET index includes service type, location and string status per appointment" do
+    john = nutritionists(:john)
+    get "/api/nutritionists/#{john.id}/appointments"
+    assert_response :ok
+    body = JSON.parse(response.body)
+    appt = body.find { |a| a["patient_name"] == "Alice Walker" }
+    assert_equal "Online", appt["service_type_name"]
+    assert_equal "London", appt["location_name"]
+    assert_equal "pending", appt["status"]
+  end
+
   # --- create ---
 
   test "POST creates appointment and returns 201" do
@@ -74,6 +85,10 @@ class Api::AppointmentsControllerTest < ActionDispatch::IntegrationTest
     patch "/api/appointments/#{appt.id}/accept"
     assert_response :ok
     assert appt.reload.accepted?
+    body = JSON.parse(response.body)
+    assert_equal "accepted", body["status"]
+    assert body.key?("service_type_name")
+    assert body.key?("location_name")
   end
 
   test "PATCH /api/appointments/:id/accept returns 404 for unknown id" do
@@ -88,6 +103,10 @@ class Api::AppointmentsControllerTest < ActionDispatch::IntegrationTest
     patch "/api/appointments/#{appt.id}/reject"
     assert_response :ok
     assert appt.reload.rejected?
+    body = JSON.parse(response.body)
+    assert_equal "rejected", body["status"]
+    assert body.key?("service_type_name")
+    assert body.key?("location_name")
   end
 
   test "PATCH /api/appointments/:id/reject returns 404 for unknown id" do

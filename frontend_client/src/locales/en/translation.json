@@ -61,19 +61,35 @@
         "Retry" : "Retry"
     },
     "NutritionistPage" : {
-        "RequestCard" : {
-            "AnswerRequest" : "Answer request"
+        "Title" : "Appointments",
+        "Subtitle" : "Review and manage your appointment requests",
+        "Tabs" : {
+            "Pending" : "Pending",
+            "Accepted" : "Accepted",
+            "Rejected" : "Rejected"
         },
-        "RequestModal" : {
-            "Accept" : "Accept",
-            "Reject" : "Reject"
+        "Status" : {
+            "pending" : "Pending",
+            "accepted" : "Accepted",
+            "rejected" : "Rejected"
         },
+        "Accept" : "Accept",
+        "Reject" : "Reject",
+        "Empty" : {
+            "pending" : "No pending requests — you're all caught up! 🎉",
+            "accepted" : "No accepted appointments yet.",
+            "rejected" : "No rejected appointments."
+        },
+        "Error" : "Failed to load appointments. Please try again.",
+        "Retry" : "Retry",
+        "ActionFailed" : "Something went wrong. Please try again.",
         "AppointmentAccepted" : "Appointment accepted!",
         "AppointmentRejected" : "Appointment rejected.",
-        "PendingRequests" : {
-            "Title" : "Pending Requests",
-            "Description" : "Accept or reject new pending requests",
-            "NoPendingRequests" : "No pending requests — you're all caught up! 🎉"
+        "Picker" : {
+            "Title" : "Select a nutritionist",
+            "Error" : "Failed to load nutritionists. Please try again.",
+            "Retry" : "Retry",
+            "Close" : "Close"
         }
     },
     "SERVICETYPE" : {
