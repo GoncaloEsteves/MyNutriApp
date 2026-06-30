@@ -39,7 +39,8 @@ class Api::AppointmentsController < ApplicationController
   def accept
     if @appointment.accept!
       # TODO: reject overlapping appointments for the same nutritionist
-      # TODO: send email to patient
+      NotifierMailer.appointment_accepted(@appointment.patient_email).deliver_now
+
       render json: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_content
@@ -49,7 +50,8 @@ class Api::AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1
   def reject
     if @appointment.reject!
-      # TODO: send email to patient
+      NotifierMailer.appointment_rejected(@appointment.patient_email).deliver_now
+
       render json: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_content

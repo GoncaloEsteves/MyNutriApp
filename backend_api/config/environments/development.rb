@@ -35,8 +35,21 @@ Rails.application.configure do
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:         "smtp.gmail.com",
+    port:            587,
+    domain:          "gmail.com",
+    user_name:       "<YOUR_GMAIL_EMAIL>",
+    password:        "<YOUR_GMAIL_APP_PASSWORD>",
+    authentication:  "plain",
+    enable_starttls: true,
+    open_timeout:    5,
+    read_timeout:    5
+  }
+
   # Set localhost to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.default_url_options = { host: "localhost", port: 4000 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
