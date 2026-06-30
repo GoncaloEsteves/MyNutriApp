@@ -25,6 +25,28 @@
             "MoreAppointmentOptions_other" : "{{value}} e {{count}} outras",
             "PriceRange" : "A partir de {{min}}€"
         },
+        "AppointmentRequestModal" : {
+            "Title" : "Agendar consulta com {{name}}",
+            "ServiceLabel" : "Serviço",
+            "ServicePlaceholder" : "Selecione um serviço",
+            "ServiceOption" : "{{type}} · {{location}} · a partir de {{price}}€ · {{duration}} min",
+            "NameLabel" : "O seu nome",
+            "NamePlaceholder" : "Nome completo",
+            "EmailLabel" : "O seu email",
+            "EmailPlaceholder" : "voce@exemplo.com",
+            "DateLabel" : "Data e hora",
+            "Submit" : "Pedir consulta",
+            "Cancel" : "Cancelar",
+            "Close" : "Fechar",
+            "Sending" : "A enviar…",
+            "SuccessTitle" : "Pedido enviado!",
+            "SuccessMessage" : "O seu pedido de consulta foi enviado. O nutricionista irá confirmá-lo em breve.",
+            "Errors" : {
+                "InvalidEmail" : "Introduza um email válido.",
+                "PastDate" : "Escolha uma data no futuro.",
+                "SubmitFailed" : "Algo correu mal. Por favor, tente novamente."
+            }
+        },
         "Search" : {
             "Button" : "Procura",
             "Placeholder" : "Nome ou serviço",

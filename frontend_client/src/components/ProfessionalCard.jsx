@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../utils/Avatar";
 import { TagBadge } from "../utils/TagBadge";
 import { CalendarIcon } from "../utils/CalendarIcon";
 import { LocationIcon } from "../utils/LocationIcon";
 import { useTranslation } from "react-i18next";
+import { AppointmentRequestModal } from "./AppointmentRequestModal";
 
 export function ProfessionalCard({ pro }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [scheduling, setScheduling] = useState(false);
 
   const servicesLocations = [... new Set(pro.services.map(s => s.location_name))].join(", ")
 
@@ -83,6 +86,7 @@ export function ProfessionalCard({ pro }) {
           cursor: "pointer",
           whiteSpace: "nowrap",
         }}
+          onClick={() => setScheduling(true)}
           onMouseOver={e => e.target.style.background = "#e08a65"}
           onMouseOut={e => e.target.style.background = "#f0a080"}
         >
@@ -106,6 +110,12 @@ export function ProfessionalCard({ pro }) {
           {t("PatientPage.ProfessionalCard.ViewProfile")}
         </button>
       </div>
+      {scheduling && (
+        <AppointmentRequestModal
+          nutritionist={pro}
+          onClose={() => setScheduling(false)}
+        />
+      )}
     </div>
   );
 }

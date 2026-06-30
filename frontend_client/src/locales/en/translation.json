@@ -24,6 +24,28 @@
             "MoreAppointmentOptions" : "{{value}} and {{count}} more",
             "PriceRange" : "From {{min}}€"
         },
+        "AppointmentRequestModal" : {
+            "Title" : "Schedule appointment with {{name}}",
+            "ServiceLabel" : "Service",
+            "ServicePlaceholder" : "Select a service",
+            "ServiceOption" : "{{type}} · {{location}} · from {{price}}€ · {{duration}} min",
+            "NameLabel" : "Your name",
+            "NamePlaceholder" : "Full name",
+            "EmailLabel" : "Your email",
+            "EmailPlaceholder" : "you@example.com",
+            "DateLabel" : "Date & time",
+            "Submit" : "Request appointment",
+            "Cancel" : "Cancel",
+            "Close" : "Close",
+            "Sending" : "Sending…",
+            "SuccessTitle" : "Request sent!",
+            "SuccessMessage" : "Your appointment request was sent. The nutritionist will confirm it shortly.",
+            "Errors" : {
+                "InvalidEmail" : "Please enter a valid email.",
+                "PastDate" : "Please choose a date in the future.",
+                "SubmitFailed" : "Something went wrong. Please try again."
+            }
+        },
         "Search" : {
             "Button" : "Search",
             "Placeholder" : "Name or service",

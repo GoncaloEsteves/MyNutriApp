@@ -1,45 +1,33 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { ProfessionalCard } from './ProfessionalCard';
+
+jest.mock('./AppointmentRequestModal', () => ({
+  AppointmentRequestModal: ({ nutritionist }) => (
+    <div data-testid="appt-modal">{nutritionist.name}</div>
+  ),
+}));
 
 const pro = {
   id: 7,
-  name: 'Ana Lima',
+  name: 'Mary Jane',
   services: [
-    {
-      id: 1,
-      price: 30,
-      duration: 45,
-      service_type_name: 'SERVICETYPE.ONLINEAPPOINTMENT',
-      location_name: 'Lisboa',
-    },
+    { id: 5, price: 50, duration: 45, service_type_name: 'SERVICETYPE.CLINICAPPOINTMENT', location_name: 'Porto' },
   ],
 };
 
 function renderCard() {
-  render(
-    <MemoryRouter initialEntries={['/patient']}>
-      <Routes>
-        <Route path="/patient" element={<ProfessionalCard pro={pro} />} />
-        <Route path="/nutritionists/:id" element={<div>Detail page</div>} />
-      </Routes>
-    </MemoryRouter>
-  );
+  render(<MemoryRouter><ProfessionalCard pro={pro} /></MemoryRouter>);
 }
 
-test('renders nutritionist name', () => {
+test('the modal is not shown initially', () => {
   renderCard();
-  expect(screen.getByText('Ana Lima')).toBeInTheDocument();
+  expect(screen.queryByTestId('appt-modal')).not.toBeInTheDocument();
 });
 
-test('View profile button navigates to /nutritionists/:id', async () => {
+test('clicking Schedule appointment opens the modal for this nutritionist', async () => {
   renderCard();
-  await userEvent.click(screen.getByRole('button', { name: /view profile/i }));
-  expect(screen.getByText('Detail page')).toBeInTheDocument();
-});
-
-test('Schedule appointment button is still present', () => {
-  renderCard();
-  expect(screen.getByRole('button', { name: /schedule appointment/i })).toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: 'Schedule appointment' }));
+  expect(screen.getByTestId('appt-modal')).toHaveTextContent('Mary Jane');
 });
