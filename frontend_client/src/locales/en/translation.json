@@ -48,7 +48,8 @@
         },
         "Search" : {
             "Button" : "Search",
-            "Placeholder" : "Name or service",
+            "Placeholder" : "Name",
+            "ServiceTypePlaceholder" : "Service",
             "LocationPlaceholder" : "Location"
         },
         "NoProfessionalsFound" : "No professionals found.",

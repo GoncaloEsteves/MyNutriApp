@@ -49,7 +49,8 @@
         },
         "Search" : {
             "Button" : "Procura",
-            "Placeholder" : "Nome ou serviço",
+            "Placeholder" : "Nome",
+            "ServiceTypePlaceholder" : "Serviço",
             "LocationPlaceholder" : "Localização"
         },
         "NoProfessionalsFound" : "Não foram encontrados profissionais.",
